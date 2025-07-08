@@ -1,29 +1,134 @@
-# Create T3 App
+# AI Podcast Clipper SaaS
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A full-stack SaaS application that uses AI to automatically generate short, shareable clips from podcast episodes and other audio/video content.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- **AI-Powered Clip Generation**: Upload podcast episodes and get automatically generated clips of interesting moments
+- **User Authentication**: Secure email/password authentication with NextAuth.js
+- **Credits System**: Pay-as-you-go model where each clip generation consumes credits
+- **File Management**: Upload, view, and manage your audio/video files
+- **Clip Library**: Access and organize your generated clips
+- **Stripe Integration**: Purchase credit packs through Stripe
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Tech Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- **Frontend**: Next.js 15 with React 19, TypeScript, and Tailwind CSS
+- **UI Components**: shadcn/ui with custom components
+- **Authentication**: NextAuth.js with JWT and Prisma adapter
+- **Database**: PostgreSQL with Prisma ORM
+- **File Storage**: AWS S3 for podcast files and clips storage
+- **Background Processing**: Inngest for reliable task scheduling and execution
+- **Payments**: Stripe integration for purchasing credits
+- **Styling**: TailwindCSS with a custom theme
 
-## Learn More
+## Getting Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Prerequisites
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- Node.js 18+ and npm
+- PostgreSQL database
+- AWS S3 bucket
+- Stripe account for payments
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Environment Variables
 
-## How do I deploy this?
+Create a `.env` file with the following variables:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```
+# Database
+DATABASE_URL=postgresql://username:password@localhost:5432/ai-podcast-clipper
+
+# Auth
+AUTH_SECRET=your-secret-key
+
+# AWS S3
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=your-region
+S3_BUCKET_NAME=your-bucket-name
+
+# AI Processing
+PROCESS_VIDEO_ENDPOINT=https://your-processing-endpoint
+PROCESS_VIDEO_ENDPOINT_AUTH=your-auth-token
+
+# Stripe
+STRIPE_SECRET_KEY=your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=your-webhook-secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-publishable-key
+STRIPE_SMALL_CREDIT_PACK=price_id
+STRIPE_MEDIUM_CREDIT_PACK=price_id
+STRIPE_LARGE_CREDIT_PACK=price_id
+
+# App
+BASE_URL=http://localhost:3000
+```
+
+### Installation
+
+1. Clone the repository
+   ```
+   git clone https://github.com/yourusername/ai-podcast-clipper-saas.git
+   cd ai-podcast-clipper-saas
+   ```
+
+2. Install dependencies
+   ```
+   npm install
+   ```
+
+3. Set up the database
+   ```
+   npm run db:push
+   ```
+
+4. Run the development server
+   ```
+   npm run dev
+   ```
+
+5. Run Inngest for background jobs (in a separate terminal)
+   ```
+   npm run inngest-dev
+   ```
+
+## Development
+
+### Database Management
+
+- View database with Prisma Studio: `npm run db:studio`
+- Push schema changes: `npm run db:push`
+- Generate migrations: `npm run db:generate`
+- Apply migrations: `npm run db:migrate`
+
+### Additional Scripts
+
+- Build for production: `npm run build`
+- Start production server: `npm run start`
+- Run linter: `npm run lint`
+- Fix linting issues: `npm run lint:fix`
+- Type check: `npm run typecheck`
+- Format code: `npm run format:write`
+
+## Project Structure
+
+```
+.
+├── prisma/             # Database schema and migrations
+├── public/             # Static assets
+├── src/
+│   ├── actions/        # Server actions
+│   ├── app/            # Next.js app router pages
+│   ├── components/     # React components
+│   ├── inngest/        # Background job definitions
+│   ├── lib/            # Utility functions
+│   ├── schemas/        # Zod validation schemas
+│   ├── server/         # Server-side code
+│   └── styles/         # Global styles
+├── .env                # Environment variables (not in repo)
+└── package.json        # Project dependencies
+```
+
+## License
+
+[MIT](LICENSE)
